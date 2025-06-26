@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-native-pell-rich-editor/src/RichEditor.js b/node_modules/react-native-pell-rich-editor/src/RichEditor.js
+index 14bea22..cd0f505 100644
+--- a/node_modules/react-native-pell-rich-editor/src/RichEditor.js
++++ b/node_modules/react-native-pell-rich-editor/src/RichEditor.js
+@@ -1,8 +1,8 @@
+-import React, {Component} from 'react';
+-import {WebView} from 'react-native-webview';
+-import {actions, messages} from './const';
+-import {Keyboard, Platform, StyleSheet, TextInput, View, Linking} from 'react-native';
+-import {createHTML} from './editor';
++import { Component } from 'react';
++import { Keyboard, Linking, Platform, StyleSheet, TextInput, View } from 'react-native';
++import { WebView } from 'react-native-webview';
++import { actions, messages } from './const';
++import { createHTML } from './editor';
+ 
+ const PlatformIOS = Platform.OS === 'ios';
+ 
+@@ -267,7 +267,6 @@ export default class RichTextEditor extends Component {
+           ref={that.setRef}
+           onMessage={that.onMessage}
+           originWhitelist={['*']}
+-          dataDetectorTypes={'none'}
+           domStorageEnabled={false}
+           bounces={false}
+           javaScriptEnabled={true}
