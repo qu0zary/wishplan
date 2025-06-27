@@ -1,5 +1,6 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import Icon from '../../assets/icons';
 import Avatar from '../../components/Avatar';
@@ -101,6 +102,36 @@ const Home = () => {
       supabase.removeChannel(notificationChannel);
     };
   }, [user?.id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const refetchPosts = async () => {
+        setLoading(true);
+        try {
+          const res = await fetchPosts(PAGE_SIZE);
+          if (res.success && Array.isArray(res.data) && isActive) {
+            setPosts(res.data);
+            setPage(1);
+            setHasMore(res.data.length === PAGE_SIZE);
+          } else {
+            console.warn('Ошибка загрузки постов при возврате на Home');
+          }
+        } catch (err) {
+          console.error('Ошибка при refetch:', err);
+        } finally {
+          if (isActive) setLoading(false);
+        }
+      };
+
+      refetchPosts();
+
+      return () => {
+        isActive = false;
+      };
+    }, []),
+  );
 
   const loadPosts = async (pageToLoad) => {
     if (loading || !hasMore) return;
